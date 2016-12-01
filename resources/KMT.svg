@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="400" height="400" id="svg3786" sodipodi:version="0.32" inkscape:version="0.46" version="1.0" sodipodi:docname="KuomintangEmblem.svg" inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs id="defs3788">
+    <inkscape:perspective sodipodi:type="inkscape:persp3d" inkscape:vp_x="0 : 526.18109 : 1" inkscape:vp_y="0 : 1000 : 0" inkscape:vp_z="744.09448 : 526.18109 : 1" inkscape:persp3d-origin="372.04724 : 350.78739 : 1" id="perspective3794"/>
+    <inkscape:perspective id="perspective3175" inkscape:persp3d-origin="372.04724 : 350.78739 : 1" inkscape:vp_z="744.09448 : 526.18109 : 1" inkscape:vp_y="0 : 1000 : 0" inkscape:vp_x="0 : 526.18109 : 1" sodipodi:type="inkscape:persp3d"/>
+  </defs>
+  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" gridtolerance="10000" guidetolerance="10" objecttolerance="10" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="0.98994949" inkscape:cx="0.15356366" inkscape:cy="179.15849" inkscape:document-units="px" inkscape:current-layer="layer1" showgrid="false" inkscape:window-width="1280" inkscape:window-height="750" inkscape:window-x="-8" inkscape:window-y="-8"/>
+  <metadata id="metadata3791">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+    <g id="g3205" transform="matrix(1.2666667,0,0,1.2666667,-180.00001,-53.33334)">
+      <path transform="matrix(1.875,0,0,1.875,-337.5,-175)" d="M 420,200 A 80,80 0 1 1 260,200 A 80,80 0 1 1 420,200 z" sodipodi:ry="80" sodipodi:rx="80" sodipodi:cy="200" sodipodi:cx="340" id="path3857" style="fill:#000080;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" sodipodi:type="arc"/>
+      <path transform="matrix(0.5122595,0.1372595,-0.1372595,0.5122595,346.47114,190.49038)" d="M 120,240 L -9.2893279,162.47449 L -6.7949183,313.20508 L -80.000007,181.42136 L -153.20508,313.20508 L -150.71068,162.47448 L -280,240 L -202.47449,110.71067 L -353.20508,113.20508 L -221.42136,39.999993 L -353.20508,-33.20508 L -202.47448,-30.710684 L -280,-160 L -150.71067,-82.474491 L -153.20508,-233.20508 L -79.999993,-101.42136 L -6.7949202,-233.20508 L -9.2893159,-82.474484 L 120,-160 L 42.474491,-30.710672 L 193.20508,-33.205082 L 61.421356,40.000007 L 193.20508,113.20508 L 42.474484,110.71068 L 120,240 z" inkscape:randomized="0" inkscape:rounded="0" inkscape:flatsided="false" sodipodi:arg2="1.0471976" sodipodi:arg1="0.78539816" sodipodi:r2="141.42136" sodipodi:r1="282.84271" sodipodi:cy="40" sodipodi:cx="-80" sodipodi:sides="12" id="path3859" style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" sodipodi:type="star"/>
+      <path transform="matrix(0.7083333,0,0,0.7083333,-110.83331,129.16667)" d="M 700,100 A 120,120 0 1 1 460,100 A 120,120 0 1 1 700,100 z" sodipodi:ry="120" sodipodi:rx="120" sodipodi:cy="100" sodipodi:cx="580" id="path3861" style="fill:#000080;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" sodipodi:type="arc"/>
+      <path transform="matrix(0.7725425,0,0,1.25,271.35255,0)" d="M 134.16408,160 A 97.082039,60 0 1 1 -60,160 A 97.082039,60 0 1 1 134.16408,160 z" sodipodi:ry="60" sodipodi:rx="97.082039" sodipodi:cy="160" sodipodi:cx="37.082039" id="path3863" style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" sodipodi:type="arc"/>
+    </g>
+  </g>
+</svg>
