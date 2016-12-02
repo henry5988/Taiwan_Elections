@@ -8,17 +8,19 @@ var svg = d3.select("body").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+var colorDomain = [-40, -30, -15, -5, 0, 5, 15, 30, 40];
+
 var color = d3.scale.threshold()
-    .domain([-40, -15, 0, 15, 40])
-    .range(["#08519c","#3182bd", "#6baed6","#74c476","#31a354","#006d2c"]);
+    .domain(colorDomain)
+    .range(["#08519c","#3182bd", "#6baed6","#9ecae1", "#c6dbef", "#c7e9c0", "#a1d99b", "#74c476","#31a354","#006d2c"]);
 
 // Drawing legend
 var legend = svg.append("g")
             .attr("class", "key")
             .attr("transform", "translate(0,40)");
 var x = d3.scale.linear()
-            .domain([-100, 100])
-            .rangeRound([450, 700]);
+            .domain([-60, 60])
+            .range([450, 700]);
 
 legend.selectAll("rect")
     .data(color.range().map(function(d) {
