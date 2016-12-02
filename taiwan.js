@@ -68,6 +68,16 @@ var currentYear = 1996;
 var changeYear = svg.append("g")
     .attr("class", "buttons")
     .attr("transform", "translate(0,5)");
+
+changeYear.append("image")
+    .attr("xlink:href","https://cdn3.iconfinder.com/data/icons/technology-internet-and-communication/100/technology_internet_communications20-512.png")
+    .attr("height", 40)
+    .attr("width", 40)
+    .attr("x", 222)
+    .attr("y", -20)
+    .on("click", function(d){
+        d.attr("xlink:href", "https://cdn3.iconfinder.com/data/icons/buttons/512/Icon_4-512.png")
+     });
     
 changeYear.append("image")
     .attr("xlink:href", "https://cdn0.iconfinder.com/data/icons/significon/512/Significon-Arrow-Right-512.png")

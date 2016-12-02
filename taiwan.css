@@ -1,5 +1,12 @@
+#title{
+    -webkit-transform: translate(280px, 50px);
+}
+
 #info{
+    width: 800px;
+    height: 400px;
     background-color:lightgray;
+    -webkit-transform: translate(200px, 0px);
 }
 .counties {
     stroke: #fff;
