@@ -10,11 +10,6 @@
     font-size: 20px;
 }
 
-svg{
-    display: block;
-    margin: auto;
-}
-
 #info{
     width: 900px;
     height: 400px;
@@ -91,7 +86,7 @@ div.tooltip{
 }
 
 #yearSlider{
-    -webkit-transform: translate(-45px, 680px);
+    -webkit-transform: translate(250px, 680px);
     height:80px;
 }
 .axis   .domain { 

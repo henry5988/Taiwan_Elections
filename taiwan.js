@@ -26,7 +26,7 @@ var changeYear = svg.append("g")
 
 // Assigning color scale
 var color = d3.scale.threshold()
-    .domain([-30, -20, -10, -5, 0, 5, 10, 20, 30])
+    .domain([-50, -30, -20, -10, 0, 10, 20, 30, 50])
     .range(["#08519c","#3182bd", "#6baed6", "#9ecae1", "#c6dbef","#c7e9c0", "#a1d99b", "#74c476","#31a354","#006d2c"]);
 
 // Define slider
@@ -39,12 +39,12 @@ var legend = svg.append("g")
 
 // Scale used by the legend
 var x = d3.scale.linear()
-            .domain([-40, 40])
+            .domain([-60, 60])
             .rangeRound([450, 700]);
 
 // Scale used to display text label under the legend ticks
 var legendText = d3.scale.ordinal()
-                     .domain([" ","30 ", "20 ", "10 ", "0", "10", "20", "30", ""].map(function (d) {return d;}))
+                     .domain([" ","50 ", "30 ", "20 ", "0", "20", "30", "50", ""].map(function (d) {return d;}))
                      .rangeRoundPoints([450, 700]);
 
 // Draw legend
@@ -85,6 +85,14 @@ legend.append("image")
     .attr("width", 40)
     .attr("height", 40);
 
+// Nationalist party logo caption
+legend.append("text")
+    .attr("class", "KMTCaption")
+    .attr("x", 340)
+    .attr("y", 50)
+    .attr("width", 40)
+    .text("Chinese Nationalist Party");
+
 // Democratic Progressive Party logo near the legend
 legend.append("image")
     .attr("xlink:href", "https://upload.wikimedia.org/wikipedia/en/thumb/f/f9/DPP-Taiwan-old.svg/1024px-DPP-Taiwan-old.svg.png")
@@ -93,7 +101,13 @@ legend.append("image")
     .attr("width", 40)
     .attr("height", 40);
 
-
+// Democratic Progressive Party logo caption
+legend.append("text")
+    .attr("class", "DPPCaption")
+    .attr("x", 630)
+    .attr("y", 50)
+    .attr("width", 40)
+    .text("Democratic Progressive Party");
 
 d3.json("county.json", function(error, topodata) {
     
@@ -187,6 +201,8 @@ var pause = changeYear.append("image")
             data.forEach(function(d){
                 China_National_Party = +d.China_National_Party,
                 Democratic_Progressive_Party = +d.Democratic_Progressive_Party,
+                Blue_Vote = +d.Blue_Vote,
+                Green_Vote = +d.Green_Vote,
                 other_1 = +d.Other_1,
                 other_2 = +d.Other_2
             });
@@ -194,6 +210,8 @@ var pause = changeYear.append("image")
             data.forEach(function(d){
                 China_National_Party = +d.China_National_Party,
                 Democratic_Progressive_Party = +d.Democratic_Progressive_Party,
+                Blue_Vote = +d.Blue_Vote,
+                Green_Vote = +d.Green_Vote,
                 other = +d.other
             });
         }
@@ -208,7 +226,7 @@ var pause = changeYear.append("image")
             console.log(features[i].properties.countyname);
             for(j = 0; j< features.length -1; j++){
                 if(features[i].properties.countyname == data[j].County){
-                    features[i].properties.vote = data[j].Democratic_Progressive_Party - data[j].China_National_Party;
+                    features[i].properties.vote = ((data[j].Green_Vote - data[j].Blue_Vote)/(data[j].Blue_Vote))*100;
                     features[i].properties.englishName = data[j].English_Name;
                     features[i].properties.blueVote = data[j].Blue_Vote;
                     features[i].properties.greenVote = data[j].Green_Vote;
@@ -234,11 +252,11 @@ var pause = changeYear.append("image")
                     });
                 tooltip.classed("hidden", false)
                     .attr('style', 'left:' + (mouse[0] + -10) +
-                                'px; top:' + (mouse[1] + 70) + 'px')
+                                'px; top:' + (mouse[1] + 150) + 'px')
                     .html("<div class=\"container\">\
                                <div class=\"column-left\"> \
                                    <p style=\"color:#880000\">" + d.properties.englishName + " (" + d.properties.countyname + ")" + "</p> \
-                                   <p>Vote Difference </p> \
+                                   <p>Overall Vote Difference </p> \
                                    <p>Chinese Nationalist Party Vote </p> \
                                    <p>Democratic Progressive Party Vote</p></div>" +
                               "<div class=\"column-center\" align=\"center\"> \
