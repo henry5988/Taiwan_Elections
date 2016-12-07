@@ -1,24 +1,32 @@
+// Defining the margin
 var margin = {top: 10, right: 40, bottom: 150, left: 50},
     width = 1000 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
+// Appending svg canvas
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+// Assigning color scale
 var color = d3.scale.threshold()
-    .domain([-40, -15, 0, 15, 40])
-    .range(["#08519c","#3182bd", "#6baed6","#74c476","#31a354","#006d2c"]);
+    .domain([-30, -20, -10, -5, 0, 5, 10, 20, 30])
+    .range(["#08519c","#3182bd", "#6baed6", "#9ecae1", "#c6dbef","#c7e9c0", "#a1d99b", "#74c476","#31a354","#006d2c"]);
 
-// Drawing legend
+// Defining legend, which shows the vote difference between the two parties
 var legend = svg.append("g")
             .attr("class", "key")
             .attr("transform", "translate(0,40)");
+
 var x = d3.scale.linear()
-            .domain([-100, 100])
+            .domain([-40, 40])
             .rangeRound([450, 700]);
+
+var legendText = d3.scale.ordinal()
+                     .domain([" ","30 ", "20 ", "10 ", "0", "10", "20", "30", ""].map(function (d) {return d;}))
+                     .rangeRoundPoints([450, 700]);
 
 legend.selectAll("rect")
     .data(color.range().map(function(d) {
@@ -30,7 +38,7 @@ legend.selectAll("rect")
     .enter().append("rect")
     .attr("height", 10)
     .attr("x", function(d) { return x(d[0]); })
-    .attr("width", function(d) { return Math.abs(x(d[1]) - x(d[0])); })
+    .attr("width", function(d) { return x(d[1]) - x(d[0]); })
     .attr("fill", function(d) { return color(d[0]); });
 
 legend.append("text")
@@ -42,9 +50,10 @@ legend.append("text")
     .attr("font-weight", "bold")
     .text("Vote Difference Percentile");
 
-legend.call(d3.svg.axis().scale(x).orient("bottom")
-    .tickSize(13)
-    .tickValues(color.domain()))
+legend.call(d3.svg.axis().scale(legendText).orient("bottom")
+    .tickSize(13))
+    
+    //.tickFormat(function(d){ return legendText[d];}))
     .select(".domain")
     .remove();
         
