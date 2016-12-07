@@ -9,6 +9,10 @@
     -webkit-transform: translate(200px, 0px);
 }
 
+.column-left{ float: left; width: 50%; }
+.column-right{ float: right; width: 25%; }
+.column-center{ display: inline-block; width: 25%; }
+
 .key{
     -webkit-transform: translate(-200px, 650px);
 }
@@ -28,7 +32,7 @@ path{
 
 div.tooltip{
     position: absolute;
-    width: auto;
+    width: 300px;
     height: auto;
     padding: 10px;
     background-color: white;

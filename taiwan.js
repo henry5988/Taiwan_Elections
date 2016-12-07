@@ -93,53 +93,23 @@ legend.append("image")
 // Year Changes
 // Button that starts time
 changeYear.append("image")
+    .attr("id", "start")
     .attr("xlink:href","https://cdn3.iconfinder.com/data/icons/technology-internet-and-communication/100/technology_internet_communications20-512.png")
     .attr("height", 40)
     .attr("width", 40)
     .attr("x",35)
-    .attr("y", 40)
+    .attr("y", 65)
     .on("click", function(d){
-        d.attr("xlink:href", "https://cdn3.iconfinder.com/data/icons/buttons/512/Icon_4-512.png")
      });
 
-changeYear.append("image")
-    .attr("xlink:href", "https://cdn0.iconfinder.com/data/icons/significon/512/Significon-Arrow-Right-512.png")
+var pause = changeYear.append("image")
+    .attr("class", "hidden")
+    .attr("id", "pause")
+    .attr("xlink:href", "https://cdn3.iconfinder.com/data/icons/buttons/512/Icon_4-512.png")
     .attr("height", 40)
     .attr("width", 40)
-    .attr("x", 284)
-    .attr("y", 17)
-    .attr("fill", "#dd0000")
-    .on("click", function(){
-        d3.selectAll(".yearText")
-            .remove();
-        if(currentYear == 2016){
-            currentYear = 1996;
-        }else{
-            currentYear += 4;
-        }
-        return year = "election_" + currentYear +".csv";
-    });
-
-
-changeYear.append("image")
-    .attr("xlink:href", "https://cdn0.iconfinder.com/data/icons/significon/512/Significon-Arrow-Left-512.png")
-    .attr("height", 40)
-    .attr("width", 80)
-    .attr("x", 140)
-    .attr("y", 17)
-    .attr("fill", "#dd0000")
-    .on("click", function(){
-        d3.selectAll(".yearText")
-            .remove();
-        if(currentYear == 1996){
-            currentYear = 2016;
-        }else{
-            currentYear -= 4;
-        }
-        return year = "election_" + currentYear +".csv";
-    });
-
-
+    .attr("x",35)
+    .attr("y", 65)
 
 d3.json("county.json", function(error, topodata) {
     
@@ -211,9 +181,16 @@ d3.json("county.json", function(error, topodata) {
                     });
                 tooltip.classed("hidden", false)
                     .attr('style', 'left:' + (mouse[0] + 45) +
-                                'px; top:' + (mouse[1] - 0) + 'px')
-                    .html( 
-                        "<p>" + d.properties.countyname + "</p> <p style=\"text-align:justify\">Vote Difference :  " + Math.round(d.properties.vote) + "%</p>");
+                                'px; top:' + (mouse[1] + 100) + 'px')
+                    .html("<div class=\"container\">\
+                               <div class=\"column-left\"> \
+                                   <p>" + d.properties.countyname + "</p> \
+                                   <p align=\"justify\">Vote Difference </p></div>" +
+                              "<div class=\"column-center\" align=\"center\"> \
+                                   <br><p>:</p></div>" + 
+                              "<div class=\"column-right\" align=\"right\"> \
+                                   <br><p>" + Math.round(Math.abs(d.properties.vote) * 10)/10 + "%</p></div>" +
+                          "</div>");
             })
             .on("mouseout", function(){
                 d3.select(".tooltip").classed("hidden", true);
