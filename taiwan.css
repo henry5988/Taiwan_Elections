@@ -60,6 +60,11 @@ path{
   font: 10px sans-serif;
 }
 
+#yearSlider{
+    -webkit-transform: translate(280px, 10px);
+    height:80px;
+}
+
 .track,
 .track-inset,
 .track-overlay {
@@ -67,9 +72,8 @@ path{
 }
 
 .track {
-  stroke: #000;
-  stroke-opacity: 0.3;
-  stroke-width: 10px;
+  float: left;
+  border: solid 1px #aaa;
 }
 
 .track-inset {
@@ -80,7 +84,7 @@ path{
 .track-overlay {
   pointer-events: stroke;
   stroke-width: 50px;
-  cursor: crosshair;
+  cursor: default;
 }
 
 .handle {

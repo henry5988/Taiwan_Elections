@@ -1,7 +1,7 @@
-// Defining the margin
-var margin = {top: 10, right: 40, bottom: 150, left: 50},
+// Define the margin
+var margin = {top: 10, right: 40, bottom: 50, left: 50},
     width = 1000 - margin.left - margin.right,
-    height = 600 - margin.top - margin.bottom;
+    height = 300 - margin.top - margin.bottom;
 
 // Appending svg canvas
 var svg = d3.select("body").append("svg")
@@ -10,24 +10,37 @@ var svg = d3.select("body").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+// Election year currently on display
+var year = "election_1996.csv";
+var currentYear = 1996;
+var changeYear = svg.append("g")
+    .attr("class", "buttons")
+    .attr("transform", "translate(0,5)");
+
 // Assigning color scale
 var color = d3.scale.threshold()
     .domain([-30, -20, -10, -5, 0, 5, 10, 20, 30])
     .range(["#08519c","#3182bd", "#6baed6", "#9ecae1", "#c6dbef","#c7e9c0", "#a1d99b", "#74c476","#31a354","#006d2c"]);
+
+// Define slider
+var s1 = slider();
 
 // Defining legend, which shows the vote difference between the two parties
 var legend = svg.append("g")
             .attr("class", "key")
             .attr("transform", "translate(0,40)");
 
+// Scale used by the legend
 var x = d3.scale.linear()
             .domain([-40, 40])
             .rangeRound([450, 700]);
 
+// Scale used to display text label under the legend ticks
 var legendText = d3.scale.ordinal()
                      .domain([" ","30 ", "20 ", "10 ", "0", "10", "20", "30", ""].map(function (d) {return d;}))
                      .rangeRoundPoints([450, 700]);
 
+// Draw legend
 legend.selectAll("rect")
     .data(color.range().map(function(d) {
         d = color.invertExtent(d);
@@ -41,6 +54,7 @@ legend.selectAll("rect")
     .attr("width", function(d) { return x(d[1]) - x(d[0]); })
     .attr("fill", function(d) { return color(d[0]); });
 
+// Append legend caption
 legend.append("text")
     .attr("class", "caption")
     .attr("x", x.range()[0]+125)
@@ -50,20 +64,21 @@ legend.append("text")
     .attr("font-weight", "bold")
     .text("Vote Difference Percentile");
 
+// Draw legend labels
 legend.call(d3.svg.axis().scale(legendText).orient("bottom")
     .tickSize(13))
-    
-    //.tickFormat(function(d){ return legendText[d];}))
     .select(".domain")
     .remove();
-        
+
+// Chinese Nationalist Party logo near the legend
 legend.append("image")
     .attr("xlink:href", "http://www.memidex.com/i/80/wikimedia/kuomintang/blue-sky-white-sun.jpg")
     .attr("x", 405)
     .attr("y", -15)
     .attr("width", 40)
     .attr("height", 40);
-        
+
+// Democratic Progressive Party logo near the legend
 legend.append("image")
     .attr("xlink:href", "https://upload.wikimedia.org/wikipedia/en/thumb/f/f9/DPP-Taiwan-old.svg/1024px-DPP-Taiwan-old.svg.png")
     .attr("x", 705)
@@ -71,13 +86,8 @@ legend.append("image")
     .attr("width", 40)
     .attr("height", 40);
 
-// Election year currently on display
-var year = "election_1996.csv";
-var currentYear = 1996;
-var changeYear = svg.append("g")
-    .attr("class", "buttons")
-    .attr("transform", "translate(0,5)");
-
+// Year Changes
+// Button that starts time
 changeYear.append("image")
     .attr("xlink:href","https://cdn3.iconfinder.com/data/icons/technology-internet-and-communication/100/technology_internet_communications20-512.png")
     .attr("height", 40)
@@ -143,6 +153,10 @@ d3.json("county.json", function(error, topodata) {
         
     var counties = svg.selectAll(".counties")
         .data(features).enter();
+    
+    // Slider
+    s1.callback(function(){sliderBind(s1);})
+    d3.select("#yearSlider").append("svg").call(s1);
     
     function updateMap(sourceFile){
     d3.csv(year, function(data)
@@ -250,4 +264,106 @@ d3.json("county.json", function(error, topodata) {
     d3.select(".buttons").on("click", function(){
         updateMap(year);
     })
+    
+    function sliderBind(src){
+        var nextYear = currentYear + 4;
+        var lastYear = currentYear - 4;
+        if(src.value() == nextYear){
+            currentYear = nextYear;
+            d3.selectAll(".yearText")
+                .remove();
+        }else if(src.value() == lastYear){
+            currentYear = lastYear;
+            d3.selectAll(".yearText")
+                .remove();
+        }
+        year = "election_" + currentYear +".csv"
+        updateMap(year);
+}
 });
+
+function slider()
+{
+    var margin = {top: 5, left: 15, right: 20, bottom: 5},
+        width  = 350 - margin.left - margin.right,
+        height = 50  - margin.top  - margin.bottom,
+        brush  = d3.svg.brush(),
+        handle, slider,
+        value  = 0,
+        upd    = function(d){value = d;},
+        cback  = function(d){};
+
+    var x = d3.scale.linear()
+        .domain([1996,2016])
+        .range ([0,width])
+        .clamp(true);
+
+    function chart(el)
+    {
+
+        brush.x(x).extent([0,0])
+             .on("brush", brushed);
+
+        var svg = el.attr("width",  width  + margin.left + margin.right)
+            .attr("height", height + margin.top  + margin.bottom)
+            .append("g").attr("transform","translate(" + margin.left + "," + margin.top + ")");
+
+        svg.append("g")
+           .attr("class","x axis")
+           .attr("transform", "translate(0,"+height/2+")")
+           .call(d3.svg.axis().scale(x)
+                 .orient("bottom")
+                 .tickFormat(d3.format("d"))
+                 .tickValues([1996, 2000, 2004, 2008, 2012, 2016])
+                 .tickSize(0)
+                 .tickPadding(12));
+
+        slider = svg.append("g")
+            .attr("class","slider")
+            .call(brush);
+
+        slider.selectAll(".extent,.resize").remove();
+        slider.select(".background").attr("height",height)
+
+        handle = slider.append("circle")
+            .attr("class","handle")
+            .attr("transform", "translate(0,"+height/2+")")
+            .attr("cx",x(value))
+            .attr("r",9);
+
+        function brushed()
+        {
+            if (d3.event.sourceEvent) value = x.invert(d3.mouse(this)[0]);
+            upd(value);
+            cback();
+        }
+        upd = function(v)
+        {
+            brush.extent([v,v]);
+            value = brush.extent()[0];
+            handle.attr("cx", function(){
+                if(value<1998){
+                    value = 1996;
+                }else if(value>1998 && value<2002){
+                    value = 2000;
+                }else if(value>2002 && value<2006){
+                    value = 2004;
+                }else if(value>2006 && value<2010){
+                    value = 2008;
+                }else if(value>2010 && value<2014){
+                    value = 2012;
+                }else{
+                    value = 2016;
+                }
+                return x(value);
+            });
+        }
+    }
+
+    chart.margin   = function(_) { if (!arguments.length) return margin;  margin = _; return chart; };
+    chart.callback = function(_) { if (!arguments.length) return cback;    cback = _; return chart; };
+    chart.value    = function(_) { if (!arguments.length) return value;       upd(_); return chart; };
+
+    return chart;
+}
+
