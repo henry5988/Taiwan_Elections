@@ -1,5 +1,5 @@
 #title{
-    -webkit-transform: translate(280px, 50px);
+    -webkit-transform: translate(240px, 70px);
 }
 
 #info{
@@ -8,21 +8,27 @@
     background-color:lightgray;
     -webkit-transform: translate(200px, 0px);
 }
-.counties {
+
+.key{
+    -webkit-transform: translate(-200px, 650px);
+}
+.county {
     stroke: #fff;
     stroke-width: 1px;
+    -webkit-transform: translate(-100px, -60px);
 }
-.counties:hover {
-    fill: #666;
+.county:hover {
+    fill: #000;
 }
 
 path{
-    stroke-width: thin;
+    stroke-width: thick;
     stroke:gray;
 }
-#tooltip{
+
+div.tooltip{
     position: absolute;
-    width: 200px;
+    width: auto;
     height: auto;
     padding: 10px;
     background-color: white;
@@ -35,15 +41,19 @@ path{
     pointer-events: none;
 }
 
-#tooltip.hidden{
+.hidden{
     display: none;
 }
 
-#tooltip p{
+.tooltip p{
     margin: 0;
     font-family: sans-serif;
     font-size: 16px;
     line-height: 20px;
+}
+
+.buttons{
+    -webkit-transform: translate(120px, 515px);
 }
 
 .yearText{
@@ -56,35 +66,26 @@ path{
     font-size: 35px;
 }
 
-.ticks {
-  font: 10px sans-serif;
+.tick {
+  font: 14px sans-serif;
 }
 
 #yearSlider{
-    -webkit-transform: translate(280px, 10px);
+    -webkit-transform: translate(250px, 680px);
     height:80px;
 }
-
-.track,
-.track-inset,
-.track-overlay {
-  stroke-linecap: round;
+.axis   .domain { 
+    fill: none; 
+    stroke: #000; 
+    stroke-opacity: .3; 
+    stroke-width: 10px; 
+    stroke-linecap: round; 
 }
-
-.track {
-  float: left;
-  border: solid 1px #aaa;
-}
-
-.track-inset {
-  stroke: #ddd;
-  stroke-width: 8px;
-}
-
-.track-overlay {
-  pointer-events: stroke;
-  stroke-width: 50px;
-  cursor: default;
+.axis .halo{ 
+    fill: none; 
+    stroke: #ddd; 
+    stroke-width: 8px;  
+    stroke-linecap: round; 
 }
 
 .handle {

@@ -1,7 +1,7 @@
 // Define the margin
 var margin = {top: 10, right: 40, bottom: 50, left: 50},
     width = 1000 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+    height = 800 - margin.top - margin.bottom;
 
 // Appending svg canvas
 var svg = d3.select("body").append("svg")
@@ -9,6 +9,10 @@ var svg = d3.select("body").append("svg")
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// Tooltip
+var tooltip = d3.select("body").append("div")
+    .attr("class", "hidden tooltip");
 
 // Election year currently on display
 var year = "election_1996.csv";
@@ -92,18 +96,18 @@ changeYear.append("image")
     .attr("xlink:href","https://cdn3.iconfinder.com/data/icons/technology-internet-and-communication/100/technology_internet_communications20-512.png")
     .attr("height", 40)
     .attr("width", 40)
-    .attr("x", 222)
-    .attr("y", -20)
+    .attr("x",35)
+    .attr("y", 40)
     .on("click", function(d){
         d.attr("xlink:href", "https://cdn3.iconfinder.com/data/icons/buttons/512/Icon_4-512.png")
      });
-    
+
 changeYear.append("image")
     .attr("xlink:href", "https://cdn0.iconfinder.com/data/icons/significon/512/Significon-Arrow-Right-512.png")
-    .attr("height", 80)
-    .attr("width", 80)
-    .attr("x", 300)
-    .attr("y", 0)
+    .attr("height", 40)
+    .attr("width", 40)
+    .attr("x", 284)
+    .attr("y", 17)
     .attr("fill", "#dd0000")
     .on("click", function(){
         d3.selectAll(".yearText")
@@ -119,10 +123,10 @@ changeYear.append("image")
 
 changeYear.append("image")
     .attr("xlink:href", "https://cdn0.iconfinder.com/data/icons/significon/512/Significon-Arrow-Left-512.png")
-    .attr("height", 80)
+    .attr("height", 40)
     .attr("width", 80)
-    .attr("x", 100)
-    .attr("y", 0)
+    .attr("x", 140)
+    .attr("y", 17)
     .attr("fill", "#dd0000")
     .on("click", function(){
         d3.selectAll(".yearText")
@@ -137,16 +141,11 @@ changeYear.append("image")
 
 
 
-var tooltip = d3.select("body").append("div")
-    .attr("class", "hidden tooltip");
-
 d3.json("county.json", function(error, topodata) {
     
     var features = topojson.feature(topodata, topodata.objects.twn_county).features;
     // 這裡要注意的是 topodata.objects["county"] 中的 "county" 為原本 shp 的檔名
    
-   
-    
     var path = d3.geo.path().projection( // 路徑產生器
         d3.geo.mercator().center([121,24]).scale(8000) // 座標變換函式
         );
@@ -158,9 +157,12 @@ d3.json("county.json", function(error, topodata) {
     s1.callback(function(){sliderBind(s1);})
     d3.select("#yearSlider").append("svg").call(s1);
     
+    // Update Map function to re-draw the map
     function updateMap(sourceFile){
     d3.csv(year, function(data)
         {
+        d3.selectAll(".county")
+                .remove();
         if(year == "election_1996.csv"){
             data.forEach(function(d){
                 China_National_Party = +d.China_National_Party,
@@ -175,12 +177,12 @@ d3.json("county.json", function(error, topodata) {
                 other = +d.other
             });
         }
-        console.log(data);
+        console.log(data); 
         
-
+        // Draw Map
+        var counties = svg.selectAll(".county").data(features)
+            .enter();
         
-        d3.select("svg").selectAll("path").data(features)
-            .enter().append("path").attr("d",path);
     
         for(i=0 ; i < features.length -1 ; i++){
             console.log(features[i].properties.countyname);
@@ -191,45 +193,31 @@ d3.json("county.json", function(error, topodata) {
                 }
             }
         }
-    
-       
         
-        d3.select("svg").selectAll("path").data(features).attr
+        counties.append("path")
+            .attr("class", "county")
+            .attr
             ({
                 data: path,
                 fill: function(d){
                     return color(d.properties.vote);
                 }
             })
-            .on("mouseover", function(d){
-                d3.select("#tooltip")
-                    .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY) + "px")
-                    .select("#out")
-                    .html(function(d){
-                        return("<p>" + d.County + "</p> <p>Chinese Nationalist Party:  " + d.China_National_Party + "% </p> <p>Democratic Progressive Party: " + d.Democratic_Progressive_Party + "% </p>")
-                });
-            d3.select(".tooltip").classed("hidden", false);
+            .attr("d",path)
+            .on("mousemove", function(d){
+                var mouse = d3.mouse(svg.node())
+                    .map(function(d) {
+                        return parseInt(d);
+                    });
+                tooltip.classed("hidden", false)
+                    .attr('style', 'left:' + (mouse[0] + 45) +
+                                'px; top:' + (mouse[1] - 0) + 'px')
+                    .html( 
+                        "<p>" + d.properties.countyname + "</p> <p style=\"text-align:justify\">Vote Difference :  " + Math.round(d.properties.vote) + "%</p>");
             })
             .on("mouseout", function(){
                 d3.select(".tooltip").classed("hidden", true);
             });
-        
-        changeYear.append("text")
-           .attr("class", "yearText")
-           .attr("x", 340)
-           .attr("y", 45)
-           .attr("text-anchor", "middle")
-           .style("opacity", 0)
-           .transition().duration(200)
-           .style("opacity", 1)    
-           .text(function(){
-                if(currentYear == 2016){
-                    return "end";
-                }else{
-                    return currentYear + 4;
-                }
-           });
         
         changeYear.append("text")
             .attr("class", "yearText")
@@ -241,22 +229,6 @@ d3.json("county.json", function(error, topodata) {
             .transition().duration(200)
             .style("opacity", 1)
             .text(currentYear);
-        
-        changeYear.append("text")
-            .attr("class", "yearText")
-            .attr("x", 145)
-            .attr("y", 45)
-            .style("text-anchor", "middle")
-            .style("opacity", 0)
-            .transition().duration(200)
-            .style("opacity", 1)
-            .text(function(){
-                 if(currentYear == 1996){
-                     return "end";
-                 }else{
-                     return currentYear - 4;
-                 }
-            });
         })
     }
     updateMap(year);
@@ -266,20 +238,31 @@ d3.json("county.json", function(error, topodata) {
     })
     
     function sliderBind(src){
-        var nextYear = currentYear + 4;
-        var lastYear = currentYear - 4;
-        if(src.value() == nextYear){
-            currentYear = nextYear;
-            d3.selectAll(".yearText")
-                .remove();
-        }else if(src.value() == lastYear){
-            currentYear = lastYear;
-            d3.selectAll(".yearText")
-                .remove();
+        switch(src.value()){
+            case 1996:
+                currentYear = 1996;
+                break;
+            case 2000:
+                currentYear = 2000;
+                break;
+            case 2004:
+                currentYear = 2004;
+                break;
+            case 2008:
+                currentYear = 2008;
+                break;
+            case 2012:
+                currentYear = 2012;
+                break;
+            case 2016:
+                currentYear = 2016;
+                break;
         }
+        d3.selectAll(".yearText")
+                .remove();
         year = "election_" + currentYear +".csv"
         updateMap(year);
-}
+    }
 });
 
 function slider()
@@ -340,21 +323,21 @@ function slider()
         upd = function(v)
         {
             brush.extent([v,v]);
-            value = brush.extent()[0];
-            handle.attr("cx", function(){
-                if(value<1998){
+            if(value<1998){
                     value = 1996;
-                }else if(value>1998 && value<2002){
+                }else if(value>=1998 && value<2002){
                     value = 2000;
-                }else if(value>2002 && value<2006){
+                }else if(value>=2002 && value<2006){
                     value = 2004;
-                }else if(value>2006 && value<2010){
+                }else if(value>=2006 && value<2010){
                     value = 2008;
-                }else if(value>2010 && value<2014){
+                }else if(value>=2010 && value<2014){
                     value = 2012;
                 }else{
                     value = 2016;
                 }
+            //value = brush.extent()[0];
+            handle.attr("cx", function(){
                 return x(value);
             });
         }
