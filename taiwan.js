@@ -10,6 +10,9 @@ var svg = d3.select("body").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+// Variable to auto-update data.
+var inter, handle;
+
 // Tooltip
 var tooltip = d3.select("body").append("div")
     .attr("class", "hidden tooltip");
@@ -90,38 +93,82 @@ legend.append("image")
     .attr("width", 40)
     .attr("height", 40);
 
-// Year Changes
-// Button that starts time
-changeYear.append("image")
-    .attr("id", "start")
-    .attr("xlink:href","https://cdn3.iconfinder.com/data/icons/technology-internet-and-communication/100/technology_internet_communications20-512.png")
-    .attr("height", 40)
-    .attr("width", 40)
-    .attr("x",35)
-    .attr("y", 65)
-    .on("click", function(d){
-     });
 
-var pause = changeYear.append("image")
-    .attr("class", "hidden")
-    .attr("id", "pause")
-    .attr("xlink:href", "https://cdn3.iconfinder.com/data/icons/buttons/512/Icon_4-512.png")
-    .attr("height", 40)
-    .attr("width", 40)
-    .attr("x",35)
-    .attr("y", 65)
 
 d3.json("county.json", function(error, topodata) {
     
     var features = topojson.feature(topodata, topodata.objects.twn_county).features;
-    // 這裡要注意的是 topodata.objects["county"] 中的 "county" 為原本 shp 的檔名
+    // In topodata.objects["county"], "county" is the name of the .shp file.
    
-    var path = d3.geo.path().projection( // 路徑產生器
-        d3.geo.mercator().center([121,24]).scale(8000) // 座標變換函式
+    var path = d3.geo.path().projection(
+        d3.geo.mercator().center([121,24]).scale(8000)
         );
         
     var counties = svg.selectAll(".counties")
         .data(features).enter();
+    
+    // Year Changes
+    // Button that starts time
+    changeYear.append("image")
+        .attr("id", "start")
+        .attr("class", "hidden")
+        .classed("hidden", false)
+        .attr("xlink:href","https://cdn3.iconfinder.com/data/icons/technology-internet-and-communication/100/technology_internet_communications20-512.png")
+        .attr("height", 40)
+        .attr("width", 40)
+        .attr("x",35)
+        .attr("y", 65)
+        .on("click", function(d){
+            inter = setInterval(function(){
+                if(currentYear != 2016){
+                    currentYear += 4;
+                    year = "election_" + currentYear +".csv";
+                    updateMap(year);
+                    handle.attr("cx", function(){
+                        return x(currentYear);
+                    });
+                }else{
+                    d3.select("#restart").classed("hidden", false);
+                    d3.select("#pause").classed("hidden", true);
+                }
+            }, 2000);
+            d3.select("#pause").classed("hidden", false);
+            d3.select("#start").classed("hidden", true);
+            //d3.select("#yearSlider").append("svg").call(s1);
+    });
+    changeYear.append("image")
+        .attr("id", "restart")
+        .attr("class", "hidden")
+        .attr("xlink:href","http://www.clipartbest.com/cliparts/niE/X5x/niEX5xpKT.png")
+        .attr("height", 60)
+        .attr("width", 60)
+        .attr("x",28)
+        .attr("y", 55)
+        .on("click", function(d){
+            clearInterval(inter);
+            currentYear = 1996;
+            year = "election_" + currentYear +".csv";
+            updateMap(year);
+            d3.select("#pause").classed("hidden", true);
+            d3.select("#start").classed("hidden", false);
+            d3.select("#restart").classed("hidden", true);
+    });    
+    
+
+// pause button
+var pause = changeYear.append("image")
+    .attr("class", "hidden")
+    .attr("id", "pause")
+    .attr("xlink:href", "https://cdn3.iconfinder.com/data/icons/buttons/512/Icon_4-512.png")
+    .attr("height", 30)
+    .attr("width", 30)
+    .attr("x",40)
+    .attr("y", 70)
+    .on("click", function(d){
+            clearInterval(inter);
+            d3.select("#pause").classed("hidden", true);
+            d3.select("#start").classed("hidden", false);
+    });
     
     // Slider
     s1.callback(function(){sliderBind(s1);})
@@ -132,6 +179,8 @@ d3.json("county.json", function(error, topodata) {
     d3.csv(year, function(data)
         {
         d3.selectAll(".county")
+                .remove();
+        d3.selectAll(".yearText")
                 .remove();
         if(year == "election_1996.csv"){
             data.forEach(function(d){
@@ -235,9 +284,8 @@ d3.json("county.json", function(error, topodata) {
                 currentYear = 2016;
                 break;
         }
-        d3.selectAll(".yearText")
-                .remove();
-        year = "election_" + currentYear +".csv"
+        
+        year = "election_" + currentYear +".csv";
         updateMap(year);
     }
 });
@@ -248,7 +296,7 @@ function slider()
         width  = 350 - margin.left - margin.right,
         height = 50  - margin.top  - margin.bottom,
         brush  = d3.svg.brush(),
-        handle, slider,
+        slider,
         value  = 0,
         upd    = function(d){value = d;},
         cback  = function(d){};
@@ -326,4 +374,3 @@ function slider()
 
     return chart;
 }
-

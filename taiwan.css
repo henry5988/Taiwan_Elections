@@ -1,17 +1,21 @@
 #title{
-    -webkit-transform: translate(240px, 70px);
+    text-align: center;
+    -webkit-transform: translate(0px, 70px);
 }
 
 #info{
-    width: 800px;
+    width: 900px;
     height: 400px;
     background-color:lightgray;
-    -webkit-transform: translate(200px, 0px);
+    -webkit-transform: translate(100px, 0px);
 }
+#info .column-left{ float: left; width: 20%; }
+#info .column-right{ float: right; width: 35%; }
+#info .column-center{ float: left; width: 45%; }
 
 .column-left{ float: left; width: 50%; }
 .column-right{ float: right; width: 25%; }
-.column-center{ display: inline-block; width: 25%; }
+.column-center{ float: left; width: 25%; }
 
 .key{
     -webkit-transform: translate(-200px, 650px);
@@ -22,7 +26,7 @@
     -webkit-transform: translate(-100px, -60px);
 }
 .county:hover {
-    fill: #000;
+    fill: #800;
 }
 
 path{
