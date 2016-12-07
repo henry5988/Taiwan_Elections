@@ -1,6 +1,18 @@
 #title{
     text-align: center;
-    -webkit-transform: translate(0px, 70px);
+    -webkit-transform: translate(0px, 30px);
+}
+
+#storyline{
+    -webkit-transform: translate(0px, 30px);
+    width:auto;
+    font-family:serif;
+    font-size: 20px;
+}
+
+svg{
+    display: block;
+    margin: auto;
 }
 
 #info{
@@ -18,7 +30,7 @@
 .column-center{ float: left; width: 5%; }
 
 .key{
-    -webkit-transform: translate(-200px, 650px);
+    -webkit-transform: translate(-200px, 660px);
 }
 .county {
     stroke: #fff;
@@ -79,7 +91,7 @@ div.tooltip{
 }
 
 #yearSlider{
-    -webkit-transform: translate(250px, 680px);
+    -webkit-transform: translate(-45px, 680px);
     height:80px;
 }
 .axis   .domain { 
