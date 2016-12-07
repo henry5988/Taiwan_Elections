@@ -130,6 +130,7 @@ d3.json("county.json", function(error, topodata) {
                 }else{
                     d3.select("#restart").classed("hidden", false);
                     d3.select("#pause").classed("hidden", true);
+                    clearInterval(inter);
                 }
             }, 2000);
             d3.select("#pause").classed("hidden", false);
@@ -208,6 +209,9 @@ var pause = changeYear.append("image")
             for(j = 0; j< features.length -1; j++){
                 if(features[i].properties.countyname == data[j].County){
                     features[i].properties.vote = data[j].Democratic_Progressive_Party - data[j].China_National_Party;
+                    features[i].properties.englishName = data[j].English_Name;
+                    features[i].properties.blueVote = data[j].Blue_Vote;
+                    features[i].properties.greenVote = data[j].Green_Vote;
                     console.log(features[i].properties.vote);
                 }
             }
@@ -229,16 +233,21 @@ var pause = changeYear.append("image")
                         return parseInt(d);
                     });
                 tooltip.classed("hidden", false)
-                    .attr('style', 'left:' + (mouse[0] + 45) +
-                                'px; top:' + (mouse[1] + 100) + 'px')
+                    .attr('style', 'left:' + (mouse[0] + -10) +
+                                'px; top:' + (mouse[1] + 70) + 'px')
                     .html("<div class=\"container\">\
                                <div class=\"column-left\"> \
-                                   <p>" + d.properties.countyname + "</p> \
-                                   <p align=\"justify\">Vote Difference </p></div>" +
+                                   <p style=\"color:#880000\">" + d.properties.englishName + " (" + d.properties.countyname + ")" + "</p> \
+                                   <p>Vote Difference </p> \
+                                   <p>Chinese Nationalist Party Vote </p> \
+                                   <p>Democratic Progressive Party Vote</p></div>" +
                               "<div class=\"column-center\" align=\"center\"> \
-                                   <br><p>:</p></div>" + 
+                                   <br><p>:</p><p>:</p><p>:</p></div>" + 
                               "<div class=\"column-right\" align=\"right\"> \
-                                   <br><p>" + Math.round(Math.abs(d.properties.vote) * 10)/10 + "%</p></div>" +
+                                   <br><p>" + Math.round(Math.abs(d.properties.vote) * 10)/10 + "%</p> \
+                                   <p>" + d.properties.blueVote + " votes</p> \
+                                   <p>" + d.properties.greenVote+ " votes</p>" +
+                               "</div>" +
                           "</div>");
             })
             .on("mouseout", function(){

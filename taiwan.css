@@ -13,9 +13,9 @@
 #info .column-right{ float: right; width: 35%; }
 #info .column-center{ float: left; width: 45%; }
 
-.column-left{ float: left; width: 50%; }
-.column-right{ float: right; width: 25%; }
-.column-center{ float: left; width: 25%; }
+.column-left{ float: left; width: 65%; }
+.column-right{ float: right; width: 30%; }
+.column-center{ float: left; width: 5%; }
 
 .key{
     -webkit-transform: translate(-200px, 650px);
@@ -36,7 +36,7 @@ path{
 
 div.tooltip{
     position: absolute;
-    width: 300px;
+    width: 400px;
     height: auto;
     padding: 10px;
     background-color: white;
