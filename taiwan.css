@@ -1,3 +1,7 @@
+body{
+    margin-left: 25vw;
+    margin-right: 25vw;
+}
 #title{
     text-align: center;
     -webkit-transform: translate(0px, 30px);
@@ -11,7 +15,9 @@
 }
 
 #info{
-    width: 900px;
+    margin-left: -20vw;
+    float: left;
+    width: 80vw;
     height: 400px;
     background-color:lightgray;
     -webkit-transform: translate(100px, 0px);
